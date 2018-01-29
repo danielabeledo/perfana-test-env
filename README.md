@@ -36,5 +36,5 @@ Another approach is to use [Vagrant](http://www.vagrantup.com) and [VirtualBox](
 * Open Perfana dashboard at ```http://localhost:3000```
 * Sign in with user/paswword admin@example.com/admin
 * Click "Grafana configuration" in the sidebar
-* Click  "Sync all Grafana instance dashboards" (refresh icon). This should sync Perfana with the Grafana instance running at ```http://localhost:4000```
+* Click  "Sync all Grafana instance dashboards" (refresh icon). This should sync Perfana with the Grafana container running at ```http://grafana:3000```. After the dashboards haven been synced please edit the Grafana instance and change the host to ```http://localhost:4000```. (this is necessary for you browser to link to Grafana, it cannot use the Docker network)
 * Go the Jenkins at ```http://localhost:8080```, and build job "PERFANA-GATLING-DEMO". The test run should should show up in Perfana! Run the build a few times to check out the benchmark features of Perfana.
