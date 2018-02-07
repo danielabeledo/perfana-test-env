@@ -682,7 +682,9 @@
         "schemaVersion": 14,
         "style": "dark",
         "tags": [
-            "Perfana"
+            "Perfana",
+            "Gatling",
+            "InfluxDb"
         ],
         "templating": {
             "list": [

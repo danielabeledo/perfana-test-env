@@ -819,6 +819,7 @@
     "style": "dark",
     "tags": [
       "Gatling",
+      "Graphite",
       "Perfana"
     ],
     "templating": {
