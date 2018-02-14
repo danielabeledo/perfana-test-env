@@ -24,10 +24,6 @@ services:
       - "8125:8125"
     networks:
       - my-net
-    volumes:
-      - /var/lib/targets-io/graphite/log:/var/log
-      - /var/lib/targets-io/graphite/storage:/opt/graphite/storage
-
   influxdb:
     image: influxdb
     ports:
@@ -140,8 +136,6 @@ services:
     image: mongo:3.0
     ports:
     - "27017:27017"
-    volumes:
-    - /var/lib/targets-io/mongo:/data/db
     networks:
       - my-net
 
