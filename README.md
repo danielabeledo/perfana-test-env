@@ -2,6 +2,15 @@
 
 A `docker-compose` setup to run a `Perfana` demo environment.
 
+## Edit hosts file  
+
+Add these lines to your hosts file
+
+```
+127.0.1.1       grafana
+127.0.1.1       jenkins
+```
+
 ## Start
 
 * Start all the containers with: `sudo docker-compose up -d`
@@ -10,8 +19,8 @@ The end result will be an environment with the following started docker containe
 
 | Container  	| Description                                            	| Exposed port|
 |------------	|--------------------------------------------------------	|-------	|
-| Perfana 	  | Performance dashboard application                      	| 3000    	|
-| Grafana 	  | Monitoring dashboard application                      	| 4000    	|
+| Perfana 	  | Performance dashboard application                      	| 4000    	|
+| Grafana 	  | Monitoring dashboard application                      	| 3000    	|
 | mongodb    	| Database to store dashboard configurations           		 | 27017 	|
 | graphite   	| Time based metrics store                              	| 8070 / 2004 /8125  	|
 | jenkins    	| CI server to start demo scripts     	                   | 8080  	|
@@ -33,11 +42,8 @@ Another approach is to use [Vagrant](http://www.vagrantup.com) and [VirtualBox](
 > shortcut using curl: `curl -O https://raw.githubusercontent.com/perfana/perfana-test-env/master/Vagrantfile && vagrant up`  
 
 ## Demo instructions
-* Open Perfana dashboard at ```http://localhost:3000```
+* Open Perfana dashboard at ```http://localhost:4000```
 * Sign in with user/paswword admin@example.com/admin
 * Click "Grafana configuration" in the sidebar
-* In a terminal, run this command ``` sudo docker inspect perfanatestenv_grafana_1 | grep IPAddress```
-* Copy the ip address in the 172.x.x.x range from the output ``` "IPAddress": "172.18.0.11"```
-* Click the "edit" icon to edit the Grafana instance. Replace the host ("grafan") in ```http://grafana:3000``` with the ip, e.g. ```http://172.18.0.11:3000```
-* Click  "Sync all Grafana instance dashboards" (refresh icon). This should sync Perfana with the Grafana container running at ```localhost:4000```. 
+* Click  "Sync all Grafana instance dashboards" (refresh icon). This should sync Perfana with the Grafana container running at ```localhost:3000```. 
 * Go the Jenkins at ```http://localhost:8080```, and build job "PERFANA-GATLING-DEMO". The test run should should show up in Perfana! Run the build a few times to check out the benchmark features of Perfana.
