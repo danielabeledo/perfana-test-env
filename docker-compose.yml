@@ -48,7 +48,7 @@ services:
       GF_SECURITY_ADMIN_PASSWORD: foobar
       GF_SERVER_ROOT_URL: "http://localhost:4000"
     ports:
-      - "4000:3000"
+      - "3000:3000"
     networks:
       - my-net
   perfana:
@@ -60,7 +60,7 @@ services:
       MONGO_URL: "mongodb://mongo:27017"
       METEOR_SETTINGS: '{"isDemo": true,"autoCreateApplications": true,"snapshotExpires": "7776000","perfanaHost":"http://localhost:3000","influxDbHost": "influxdb"}'
     ports:
-      - "3000:3000"
+      - "4000:3000"
     networks:
       - my-net
 
