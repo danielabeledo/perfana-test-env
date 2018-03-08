@@ -7,8 +7,8 @@ A `docker-compose` setup to run a `Perfana` demo environment.
 Add these lines to your hosts file
 
 ```
-127.0.1.1       grafana
-127.0.1.1       jenkins
+127.0.0.1       grafana
+127.0.0.1       jenkins
 ```
 
 ## Start
@@ -43,7 +43,7 @@ Another approach is to use [Vagrant](http://www.vagrantup.com) and [VirtualBox](
 
 ## Demo instructions
 * Open Perfana dashboard at ```http://localhost:4000```
-* Sign in with user/paswword admin@example.com/admin
+* Sign in with user/password admin@example.com/admin
 * Click "Grafana configuration" in the sidebar
 * Click  "Sync all Grafana instance dashboards" (refresh icon). This should sync Perfana with the Grafana container running at ```localhost:3000```. 
 * Go the Jenkins at ```http://localhost:8080```, and build job "PERFANA-GATLING-DEMO". The test run should should show up in Perfana! Run the build a few times to check out the benchmark features of Perfana.
