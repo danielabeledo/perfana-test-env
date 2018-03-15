@@ -2,19 +2,11 @@ version: "3"
 
 services:
   telegraf:
-    image: cgeoffroy/telegraf
-    environment:
-      HOST_PROC: /rootfs/proc
-      HOST_SYS: /rootfs/sys
+    image: telegraf:1.5.2
     networks:
       - my-net
     volumes:
-      - "./telegraf.conf:/telegraf.conf:ro"
-      - "/sys:/rootfs/sys:ro"
-      - "/proc:/rootfs/proc:ro"
-      - "/var/run/docker.sock:/var/run/docker.sock:ro"
-    entrypoint: /bin/sh
-    command: -c "sleep 10s && exec /usr/local/bin/telegraf -config /telegraf.conf"
+      - "./telegraf.conf:/etc/telegraf/telegraf.conf:ro"
 
   graphite:
     image: dmoll1974/targets-io-graphite
@@ -25,7 +17,7 @@ services:
     networks:
       - my-net
   influxdb:
-    image: influxdb
+    image: influxdb:1.5
     ports:
       - "8086:8086"
       - "2003:2003"
@@ -38,17 +30,15 @@ services:
       - "./influxdb.conf:/etc/influxdb/influxdb.conf:ro"
 
   grafana:
-    image: "grafana/grafana"
+    image: "grafana/grafana:5.0.0"
     depends_on:
       - influxdb
-      - prometheus
       - graphite
     environment:
       GF_SECURITY_ADMIN_USER: foobar
       GF_SECURITY_ADMIN_PASSWORD: foobar
-      GF_SERVER_ROOT_URL: "http://localhost:4000"
     ports:
-      - "4000:3000"
+      - "3000:3000"
     networks:
       - my-net
   perfana:
@@ -60,7 +50,7 @@ services:
       MONGO_URL: "mongodb://mongo:27017"
       METEOR_SETTINGS: '{"isDemo": true,"autoCreateApplications": true,"snapshotExpires": "7776000","perfanaHost":"http://localhost:3000","influxDbHost": "influxdb"}'
     ports:
-      - "3000:3000"
+      - "4000:3000"
     networks:
       - my-net
 
@@ -79,48 +69,6 @@ services:
     networks:
       - my-net
     command: /bootstrap.sh
-
-  prometheus:
-    image: prom/prometheus
-    volumes:
-      - "./prometheus.yml:/etc/prometheus/prometheus.yml:ro"
-      - "prometheus_data:/prometheus"
-    networks:
-      - my-net
-    command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
-      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
-      - '--web.console.templates=/usr/share/prometheus/consoles'
-    expose:
-      - 9090
-    ports:
-      - 9090:9090
-    depends_on:
-      - cadvisor
-
-  node-exporter:
-    image: prom/node-exporter
-    volumes:
-      - /proc:/host/proc:ro
-      - /sys:/host/sys:ro
-      - /:/rootfs:ro
-    networks:
-      - my-net
-    command: '--path.procfs=/host/proc --path.sysfs=/host/sys --collector.filesystem.ignored-mount-points="^(/rootfs|/host|)/(sys|proc|dev|host|etc)($$|/)" --collector.filesystem.ignored-fs-types="^(sys|proc|auto|cgroup|devpts|ns|au|fuse\.lxc|mqueue)(fs|)$$"'
-    expose:
-      - 9100
-
-  cadvisor:
-    image: google/cadvisor
-    volumes:
-      - /:/rootfs:ro
-      - /var/run:/var/run:rw
-      - /sys:/sys:ro
-      - /var/lib/docker/:/var/lib/docker:ro
-    networks:
-      - my-net
-    expose:
-      - 8080
 
   jenkins:
     image: perfana/perfana-demo-jenkins
@@ -156,6 +104,4 @@ networks:
   my-net:
     driver: bridge
 
-volumes:
-  prometheus_data: 
-   
+
