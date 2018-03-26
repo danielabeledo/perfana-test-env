@@ -46,6 +46,7 @@ services:
     depends_on:
       - grafana
       - influxdb
+      - mongo 
     environment:
       MONGO_URL: "mongodb://mongo:27017"
       METEOR_SETTINGS: '{"isDemo": true,"autoCreateApplications": true,"snapshotExpires": "7776000","perfanaHost":"http://localhost:3000","influxDbHost": "influxdb"}'
